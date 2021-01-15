@@ -13,9 +13,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -27,6 +25,21 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyAIpnyZkBzHX_HiHfCrGS9Qm68u11wnAYU",
+        "authDomain": "reactnativeshopreviewnew.firebaseapp.com",
+        "projectId": "reactnativeshopreviewnew",
+        "storageBucket": "reactnativeshopreviewnew.appspot.com",
+        "messagingSenderId": "876463620175",
+        "appId": "1:876463620175:web:7f692778f1ce5872e76a3a",
+        "measurementId": "G-KCW5JZBMPB"
+      },
+      "algolia": {
+        "appId": "VWQ97MEN2C",
+        "searchAPIKEY": "04256790a4e23a641fff8480bd061a53"
+      }
     }
   }
 }
