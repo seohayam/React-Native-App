@@ -1,6 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
 import { Icon } from "react-native-vector-icons/Icon";
 // componet
@@ -17,6 +25,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../types/navigation";
 import { RouteProp } from "@react-navigation/native";
+import { KeyboardAvoidingView } from "react-native";
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, "Create">;
@@ -28,6 +37,7 @@ const CreateScreen: React.FC<Props> = ({ navigation, route }: Props) => {
   const [message, setMessage] = useState<string>("");
   const [image, setImage] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [boolean, setBoolean] = useState<boolean>(false);
 
   const pickImage = async () => {
     const uri = await imagePicker();
@@ -36,6 +46,7 @@ const CreateScreen: React.FC<Props> = ({ navigation, route }: Props) => {
   };
 
   const onSubmit = async () => {
+    setBoolean(true);
     const downloadUrl = await imageTreat(image);
     console.log(downloadUrl);
 
@@ -46,34 +57,55 @@ const CreateScreen: React.FC<Props> = ({ navigation, route }: Props) => {
       name: name,
     } as Nation;
     await addItem(nation);
+    setBoolean(false);
+    setName("");
+    setImage("");
+    setMessage("");
+    setScore(5);
     alert("追加されました");
     navigation.navigate("Main");
   };
 
   return (
-    <Continer>
-      <Cotent>
-        <TouchableOpacity onPress={pickImage}>
-          <Poster source={require("../image/camera.png")}>
-            {!!image && <ImageOnly source={{ uri: image }} />}
-          </Poster>
-        </TouchableOpacity>
-      </Cotent>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior="position"
+      contentContainerStyle={{ flex: 1 }}
+    >
+      <Continer>
+        <ActivityIndicator size={70} animating={boolean} />
+        <Cotent>
+          <TouchableOpacity onPress={pickImage}>
+            <Poster source={require("../image/camera.png")}>
+              {!!image && <ImageOnly source={{ uri: image }} />}
+            </Poster>
+          </TouchableOpacity>
+        </Cotent>
 
-      <Input
-        returnKeyType="done"
-        style={{ borderWidth: 2 }}
-        // multiline={true}
-        onChangeText={(value) => setMessage(value)}
-        placeholder="コメントをお書きください"
-      />
-      <StarCotent>
-        <Starcount score={score} onChangeScore={(value) => setScore(value)} />
-      </StarCotent>
-      <Touch onPress={onSubmit}>
-        <Text>追加する</Text>
-      </Touch>
-    </Continer>
+        <Input
+          returnKeyType="done"
+          style={{ borderWidth: 2 }}
+          // multiline={true}
+          value={message}
+          onChangeText={(value) => setMessage(value)}
+          placeholder="コメントをお書きください"
+        />
+        <InputName
+          returnKeyType="done"
+          style={{ borderWidth: 2 }}
+          // multiline={true}
+          value={name}
+          onChangeText={(value) => setName(value)}
+          placeholder="場所"
+        />
+        <StarCotent>
+          <Starcount score={score} onChangeScore={(value) => setScore(value)} />
+        </StarCotent>
+        <Touch onPress={onSubmit}>
+          <Text>追加する</Text>
+        </Touch>
+      </Continer>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -94,14 +126,25 @@ const Input = styled.TextInput`
   box-shadow: 5px 5px 5px black;
   margin: 20px auto;
 `;
+const InputName = styled.TextInput`
+  color: #59595e;
+  font-size: 15px;
+  padding: 20px;
+  width: 200px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px black;
+  position: absolute;
+  bottom: 150px;
+  right: 70px;
+`;
 const Touch = styled.TouchableOpacity`
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 150px;
+  bottom: 50px;
   right: 70px;
-  width: 150px;
+  width: 200px;
   padding: 20px;
   border: solid 1px black;
   border-radius: 10px;
@@ -135,7 +178,8 @@ const Cotent = styled.View`
 `;
 
 const StarCotent = styled.View`
-  margin-left: 50px;
+  margin-left: 30px;
+  width: 50px;
 `;
 
 const Poster = styled.ImageBackground`

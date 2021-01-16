@@ -1,6 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { Button, FlatList, StyleSheet, Text, View, Image } from "react-native";
+import {
+  Button,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 // Screen
 import DetailScreen from "./DetailScreen";
@@ -14,6 +22,8 @@ import Nation from "../types/nation";
 import { SafeAreaView } from "react-native-safe-area-context";
 import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
+// Icon
+import { FontAwesome } from "@expo/vector-icons";
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, "Home">;
@@ -21,6 +31,7 @@ type Props = {
 
 const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
   const [items, setItems] = useState<Nation[]>([]);
+  const [boolean, setBoolean] = useState<boolean>(false);
 
   useEffect(() => {
     const getItems = async () => {
@@ -35,6 +46,13 @@ const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
     navigation.navigate("Detail", { item });
   };
 
+  const reload = async () => {
+    setBoolean(true);
+    const items = await getFirebaseItems();
+    setItems(items);
+    setBoolean(false);
+  };
+
   return (
     <Continer>
       <Map
@@ -42,12 +60,13 @@ const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
         renderItem={({ item }) => (
           <Touch style={{ margin: 10 }} onPress={() => onPress(item)}>
             <Poster source={{ uri: item.image }} />
-            {/* <Text>{item.image}</Text> */}
-            {/* <Text>{item.name}</Text>
-            <Text>{item.message}</Text> */}
           </Touch>
         )}
       />
+      <TouchableOpacity onPress={reload} style={{ marginBottom: 30 }}>
+        <ActivityIndicator animating={boolean} size={20} />
+        <FontAwesome name="refresh" size={50} />
+      </TouchableOpacity>
     </Continer>
   );
 };

@@ -26,6 +26,7 @@ const AccountScreen: React.FC = () => {
     setGivenName(userInfo?.name);
     // マージする
     setUser({ ...user, name: userInfo?.name, id: userInfo?.id });
+    setGivenName("");
     alert("登録完了");
   };
 
@@ -36,6 +37,7 @@ const AccountScreen: React.FC = () => {
         <Input
           returnKeyType="done"
           placeholder={"ニックネーム"}
+          value={givenName}
           onChangeText={(value) => setGivenName(value)}
         />
         <Touch style={{ borderWidth: 2 }} onPress={() => onPress()}>
