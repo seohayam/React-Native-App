@@ -12,6 +12,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { max, Value } from "react-native-reanimated";
 import Starcount from "../component/Starcount";
 import { TextInput } from "react-native-gesture-handler";
+import styled from "styled-components/native";
 
 type Props = {
   navigation: StackNavigationProp<RootStackParamList, "Detail">;
@@ -22,24 +23,38 @@ const SearchScreen: React.FC<Props> = ({ navigation, route }: Props) => {
   const [keyword, setKeyWord] = useState<string>("");
 
   return (
-    <View>
-      <Text>SearchScreen</Text>
-      <TextInput
-        style={{ borderWidth: 2 }}
-        onChangeText={(value) => setKeyWord(value)}
-        value={keyword}
-      />
-    </View>
+    <>
+      <Poster source={require("../image/search.png")}>
+        <View style={{ marginTop: 50 }}>
+          <Input
+            returnKeyType="done"
+            onChangeText={(value) => setKeyWord(value)}
+            value={keyword}
+            placeholder="キーワードを入れてね！"
+          />
+          <Text style={{ textAlign: "center", margin: 20, fontSize: 17 }}>
+            {!!keyword ? "現在使用出来ない状況です。" : ""}
+          </Text>
+        </View>
+      </Poster>
+    </>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const Input = styled.TextInput`
+  color: #59595e;
+  font-size: 15px;
+  padding: 20px;
+  width: 90%;
+  border: solid 1px black;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px black;
+  margin: 20px auto;
+`;
+
+const Poster = styled.ImageBackground`
+  width: 100%;
+  height: 100%;
+`;
 
 export default SearchScreen;

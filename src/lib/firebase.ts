@@ -17,7 +17,15 @@ import Nation from "../types/nation";
 
 // Initialize Firebase
 if (!firebase.apps.length) {
-  const firebaseConfig = {};
+  const firebaseConfig = {
+    apiKey: "AIzaSyDYAcXVBU3n5uiFlki-jSnG1_Ru1KLDBus",
+    authDomain: "newshopreview.firebaseapp.com",
+    projectId: "newshopreview",
+    storageBucket: "newshopreview.appspot.com",
+    messagingSenderId: "988992763610",
+    appId: "1:988992763610:web:2d4e55df401ee2d1b297e3",
+    measurementId: "G-H5B0WJJP5S",
+  };
 
   // 初期化
   firebase.initializeApp(firebaseConfig);

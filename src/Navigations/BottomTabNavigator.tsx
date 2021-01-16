@@ -20,7 +20,7 @@ export const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        activeTintColor: "#00DBDE",
+        activeTintColor: "#80D0C7",
         inactiveTintColor: "gray",
       }}
     >

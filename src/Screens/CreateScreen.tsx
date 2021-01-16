@@ -12,8 +12,18 @@ import Nation from "../types/nation";
 // idcon
 import { FontAwesome } from "@expo/vector-icons";
 import { imagePicker } from "../lib/ImagePicker";
+import styled from "styled-components/native";
+import { LinearGradient } from "expo-linear-gradient";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { RootStackParamList } from "../types/navigation";
+import { RouteProp } from "@react-navigation/native";
 
-const CreateScreen: React.FC = () => {
+type Props = {
+  navigation: StackNavigationProp<RootStackParamList, "Create">;
+  route: RouteProp<RootStackParamList, "Create">;
+};
+
+const CreateScreen: React.FC<Props> = ({ navigation, route }: Props) => {
   const [score, setScore] = useState<number>(3);
   const [message, setMessage] = useState<string>("");
   const [image, setImage] = useState<string>("");
@@ -37,37 +47,105 @@ const CreateScreen: React.FC = () => {
     } as Nation;
     await addItem(nation);
     alert("追加されました");
+    navigation.navigate("Main");
   };
 
   return (
-    <View>
-      <Starcount score={score} onChangeScore={(value) => setScore(value)} />
-      <TextInput
+    <Continer>
+      <Cotent>
+        <TouchableOpacity onPress={pickImage}>
+          <Poster source={require("../image/camera.png")}>
+            {!!image && <ImageOnly source={{ uri: image }} />}
+          </Poster>
+        </TouchableOpacity>
+      </Cotent>
+
+      <Input
         returnKeyType="done"
         style={{ borderWidth: 2 }}
         // multiline={true}
         onChangeText={(value) => setMessage(value)}
+        placeholder="コメントをお書きください"
       />
-      <TouchableOpacity onPress={pickImage}>
-        <FontAwesome name="camera" size={24} color="black" />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onSubmit}>
+      <StarCotent>
+        <Starcount score={score} onChangeScore={(value) => setScore(value)} />
+      </StarCotent>
+      <Touch onPress={onSubmit}>
         <Text>追加する</Text>
-      </TouchableOpacity>
-      {!!image && (
-        <Image source={{ uri: image }} style={{ width: 100, height: 100 }} />
-      )}
-    </View>
+      </Touch>
+    </Continer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+// ===style===
+const Continer = styled.SafeAreaView`
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  position: relative;
+`;
+
+const Input = styled.TextInput`
+  color: #59595e;
+  font-size: 15px;
+  padding: 20px;
+  width: 90%;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px black;
+  margin: 20px auto;
+`;
+const Touch = styled.TouchableOpacity`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 150px;
+  right: 70px;
+  width: 150px;
+  padding: 20px;
+  border: solid 1px black;
+  border-radius: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px black;
+`;
+const TextLg = styled.Text`
+  color: #59595e;
+  font-size: 30px;
+  margin: 5px;
+  border: solid 1px black;
+  border-radius: 10px;
+  padding: 10px;
+  width: 90%;
+  box-shadow: 10px 10px 10px black;
+`;
+const Gradient = styled(LinearGradient)`
+  height: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Cotent = styled.View`
+  width: 100%;
+  height: 200px;
+  background-color: #008000;
+  box-shadow: 0px 2px 1px black;
+  margin: 0 0 10px 0;
+`;
+
+const StarCotent = styled.View`
+  margin-left: 50px;
+`;
+
+const Poster = styled.ImageBackground`
+  width: 100%;
+  height: 100%;
+`;
+
+const ImageOnly = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
 
 export default CreateScreen;

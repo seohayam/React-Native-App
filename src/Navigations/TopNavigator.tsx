@@ -11,9 +11,9 @@ import AuthScreen from "../Screens/AuthScreen";
 import { UserContext } from "../contexts/UserContext";
 
 export const TopNavigator = () => {
-  // const { user } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   // console.log(user);
-  const user = "kame";
+  // const user = null;
 
   return (
     <NavigationContainer>
