@@ -8,6 +8,8 @@ import {
   View,
   Image,
   ActivityIndicator,
+  ScrollView,
+  RefreshControl,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 // Screen
@@ -54,20 +56,22 @@ const MainScreen: React.FC<Props> = ({ navigation }: Props) => {
   };
 
   return (
-    <Continer>
-      <Map
-        data={items}
-        renderItem={({ item }) => (
-          <Touch style={{ margin: 10 }} onPress={() => onPress(item)}>
-            <Poster source={{ uri: item.image }} />
-          </Touch>
-        )}
-      />
-      <TouchableOpacity onPress={reload} style={{ marginBottom: 30 }}>
-        <ActivityIndicator animating={boolean} size={20} />
-        <FontAwesome name="refresh" size={50} />
-      </TouchableOpacity>
-    </Continer>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={boolean} onRefresh={reload} />
+      }
+    >
+      <Continer>
+        <Map
+          data={items}
+          renderItem={({ item }) => (
+            <Touch style={{ margin: 10 }} onPress={() => onPress(item)}>
+              <Poster source={{ uri: item.image }} />
+            </Touch>
+          )}
+        />
+      </Continer>
+    </ScrollView>
   );
 };
 

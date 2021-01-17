@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ShopReview",
-    "slug": "ShopReview",
+    "name": "wag",
+    "slug": "wag",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -40,6 +42,7 @@
         "appId": "VWQ97MEN2C",
         "searchAPIKEY": "04256790a4e23a641fff8480bd061a53"
       }
-    }
+    },
+    "description": "写真を投稿するアプリ"
   }
 }
